@@ -72,7 +72,7 @@ mod tests {
     use stdarch_test::simd_test;
 
     #[simd_test(enable = "sse")]
-    unsafe fn test_mm_cvtss_si64() {
+    fn test_mm_cvtss_si64() {
         let inputs = &[
             (42.0f32, 42i64),
             (-31.4, -31),
@@ -96,7 +96,7 @@ mod tests {
     }
 
     #[simd_test(enable = "sse")]
-    unsafe fn test_mm_cvttss_si64() {
+    fn test_mm_cvttss_si64() {
         let inputs = &[
             (42.0f32, 42i64),
             (-31.4, -31),
@@ -123,7 +123,7 @@ mod tests {
     }
 
     #[simd_test(enable = "sse")]
-    unsafe fn test_mm_cvtsi64_ss() {
+    fn test_mm_cvtsi64_ss() {
         let inputs = &[
             (4555i64, 4555.0f32),
             (322223333, 322223330.0),
