@@ -332,7 +332,7 @@ mod tests {
     use crate::core_arch::x86::*;
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f")]
-    unsafe fn test_mm512_popcnt_epi32() {
+    fn test_mm512_popcnt_epi32() {
         let test_data = _mm512_set_epi32(
             0,
             1,
@@ -358,7 +358,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f")]
-    unsafe fn test_mm512_mask_popcnt_epi32() {
+    fn test_mm512_mask_popcnt_epi32() {
         let test_data = _mm512_set_epi32(
             0,
             1,
@@ -401,7 +401,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f")]
-    unsafe fn test_mm512_maskz_popcnt_epi32() {
+    fn test_mm512_maskz_popcnt_epi32() {
         let test_data = _mm512_set_epi32(
             0,
             1,
@@ -427,7 +427,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f,avx512vl")]
-    unsafe fn test_mm256_popcnt_epi32() {
+    fn test_mm256_popcnt_epi32() {
         let test_data = _mm256_set_epi32(0, 1, -1, 2, 7, 0xFF_FE, 0x7F_FF_FF_FF, -100);
         let actual_result = _mm256_popcnt_epi32(test_data);
         let reference_result = _mm256_set_epi32(0, 1, 32, 1, 3, 15, 31, 28);
@@ -435,7 +435,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f,avx512vl")]
-    unsafe fn test_mm256_mask_popcnt_epi32() {
+    fn test_mm256_mask_popcnt_epi32() {
         let test_data = _mm256_set_epi32(0, 1, -1, 2, 7, 0xFF_FE, 0x7F_FF_FF_FF, -100);
         let mask = 0xF0;
         let actual_result = _mm256_mask_popcnt_epi32(test_data, mask, test_data);
@@ -444,7 +444,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f,avx512vl")]
-    unsafe fn test_mm256_maskz_popcnt_epi32() {
+    fn test_mm256_maskz_popcnt_epi32() {
         let test_data = _mm256_set_epi32(0, 1, -1, 2, 7, 0xFF_FE, 0x7F_FF_FF_FF, -100);
         let mask = 0xF0;
         let actual_result = _mm256_maskz_popcnt_epi32(mask, test_data);
@@ -453,7 +453,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f,avx512vl")]
-    unsafe fn test_mm_popcnt_epi32() {
+    fn test_mm_popcnt_epi32() {
         let test_data = _mm_set_epi32(0, 1, -1, -100);
         let actual_result = _mm_popcnt_epi32(test_data);
         let reference_result = _mm_set_epi32(0, 1, 32, 28);
@@ -461,7 +461,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f,avx512vl")]
-    unsafe fn test_mm_mask_popcnt_epi32() {
+    fn test_mm_mask_popcnt_epi32() {
         let test_data = _mm_set_epi32(0, 1, -1, -100);
         let mask = 0xE;
         let actual_result = _mm_mask_popcnt_epi32(test_data, mask, test_data);
@@ -470,7 +470,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f,avx512vl")]
-    unsafe fn test_mm_maskz_popcnt_epi32() {
+    fn test_mm_maskz_popcnt_epi32() {
         let test_data = _mm_set_epi32(0, 1, -1, -100);
         let mask = 0xE;
         let actual_result = _mm_maskz_popcnt_epi32(mask, test_data);
@@ -479,7 +479,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f")]
-    unsafe fn test_mm512_popcnt_epi64() {
+    fn test_mm512_popcnt_epi64() {
         let test_data = _mm512_set_epi64(0, 1, -1, 2, 7, 0xFF_FE, 0x7F_FF_FF_FF_FF_FF_FF_FF, -100);
         let actual_result = _mm512_popcnt_epi64(test_data);
         let reference_result = _mm512_set_epi64(0, 1, 64, 1, 3, 15, 63, 60);
@@ -487,7 +487,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f")]
-    unsafe fn test_mm512_mask_popcnt_epi64() {
+    fn test_mm512_mask_popcnt_epi64() {
         let test_data = _mm512_set_epi64(0, 1, -1, 2, 7, 0xFF_FE, 0x7F_FF_FF_FF_FF_FF_FF_FF, -100);
         let mask = 0xF0;
         let actual_result = _mm512_mask_popcnt_epi64(test_data, mask, test_data);
@@ -497,7 +497,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512f")]
-    unsafe fn test_mm512_maskz_popcnt_epi64() {
+    fn test_mm512_maskz_popcnt_epi64() {
         let test_data = _mm512_set_epi64(0, 1, -1, 2, 7, 0xFF_FE, 0x7F_FF_FF_FF_FF_FF_FF_FF, -100);
         let mask = 0xF0;
         let actual_result = _mm512_maskz_popcnt_epi64(mask, test_data);
@@ -506,7 +506,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512vl")]
-    unsafe fn test_mm256_popcnt_epi64() {
+    fn test_mm256_popcnt_epi64() {
         let test_data = _mm256_set_epi64x(0, 1, -1, -100);
         let actual_result = _mm256_popcnt_epi64(test_data);
         let reference_result = _mm256_set_epi64x(0, 1, 64, 60);
@@ -514,7 +514,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512vl")]
-    unsafe fn test_mm256_mask_popcnt_epi64() {
+    fn test_mm256_mask_popcnt_epi64() {
         let test_data = _mm256_set_epi64x(0, 1, -1, -100);
         let mask = 0xE;
         let actual_result = _mm256_mask_popcnt_epi64(test_data, mask, test_data);
@@ -523,7 +523,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512vl")]
-    unsafe fn test_mm256_maskz_popcnt_epi64() {
+    fn test_mm256_maskz_popcnt_epi64() {
         let test_data = _mm256_set_epi64x(0, 1, -1, -100);
         let mask = 0xE;
         let actual_result = _mm256_maskz_popcnt_epi64(mask, test_data);
@@ -532,7 +532,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512vl")]
-    unsafe fn test_mm_popcnt_epi64() {
+    fn test_mm_popcnt_epi64() {
         let test_data = _mm_set_epi64x(0, 1);
         let actual_result = _mm_popcnt_epi64(test_data);
         let reference_result = _mm_set_epi64x(0, 1);
@@ -544,7 +544,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512vl")]
-    unsafe fn test_mm_mask_popcnt_epi64() {
+    fn test_mm_mask_popcnt_epi64() {
         let test_data = _mm_set_epi64x(0, -100);
         let mask = 0x2;
         let actual_result = _mm_mask_popcnt_epi64(test_data, mask, test_data);
@@ -558,7 +558,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx512vpopcntdq,avx512vl")]
-    unsafe fn test_mm_maskz_popcnt_epi64() {
+    fn test_mm_maskz_popcnt_epi64() {
         let test_data = _mm_set_epi64x(0, 1);
         let mask = 0x2;
         let actual_result = _mm_maskz_popcnt_epi64(mask, test_data);
