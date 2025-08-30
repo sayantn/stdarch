@@ -65,15 +65,15 @@ mod tests {
     use stdarch_test::simd_test;
 
     #[simd_test(enable = "sse2")]
-    unsafe fn test_rdtsc() {
-        let r = _rdtsc();
+    fn test_rdtsc() {
+        let r = unsafe { _rdtsc() };
         assert_ne!(r, 0); // The chances of this being 0 are infinitesimal
     }
 
     #[simd_test(enable = "sse2")]
-    unsafe fn test_rdtscp() {
+    fn test_rdtscp() {
         let mut aux = 0;
-        let r = __rdtscp(&mut aux);
+        let r = unsafe { __rdtscp(&mut aux) };
         assert_ne!(r, 0); // The chances of this being 0 are infinitesimal
     }
 }
