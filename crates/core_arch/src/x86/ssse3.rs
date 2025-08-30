@@ -346,25 +346,25 @@ mod tests {
     use crate::core_arch::x86::*;
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_abs_epi8() {
+    fn test_mm_abs_epi8() {
         let r = _mm_abs_epi8(_mm_set1_epi8(-5));
         assert_eq_m128i(r, _mm_set1_epi8(5));
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_abs_epi16() {
+    fn test_mm_abs_epi16() {
         let r = _mm_abs_epi16(_mm_set1_epi16(-5));
         assert_eq_m128i(r, _mm_set1_epi16(5));
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_abs_epi32() {
+    fn test_mm_abs_epi32() {
         let r = _mm_abs_epi32(_mm_set1_epi32(-5));
         assert_eq_m128i(r, _mm_set1_epi32(5));
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_shuffle_epi8() {
+    fn test_mm_shuffle_epi8() {
         #[rustfmt::skip]
         let a = _mm_setr_epi8(
             1, 2, 3, 4, 5, 6, 7, 8,
@@ -388,7 +388,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_alignr_epi8() {
+    fn test_mm_alignr_epi8() {
         #[rustfmt::skip]
         let a = _mm_setr_epi8(
             1, 2, 3, 4, 5, 6, 7, 8,
@@ -428,7 +428,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_hadd_epi16() {
+    fn test_mm_hadd_epi16() {
         let a = _mm_setr_epi16(1, 2, 3, 4, 5, 6, 7, 8);
         let b = _mm_setr_epi16(4, 128, 4, 3, 24, 12, 6, 19);
         let expected = _mm_setr_epi16(3, 7, 11, 15, 132, 7, 36, 25);
@@ -453,7 +453,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_hadds_epi16() {
+    fn test_mm_hadds_epi16() {
         let a = _mm_setr_epi16(1, 2, 3, 4, 5, 6, 7, 8);
         let b = _mm_setr_epi16(4, 128, 4, 3, 32767, 1, -32768, -1);
         let expected = _mm_setr_epi16(3, 7, 11, 15, 132, 7, 32767, -32768);
@@ -478,7 +478,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_hadd_epi32() {
+    fn test_mm_hadd_epi32() {
         let a = _mm_setr_epi32(1, 2, 3, 4);
         let b = _mm_setr_epi32(4, 128, 4, 3);
         let expected = _mm_setr_epi32(3, 7, 132, 7);
@@ -494,7 +494,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_hsub_epi16() {
+    fn test_mm_hsub_epi16() {
         let a = _mm_setr_epi16(1, 2, 3, 4, 5, 6, 7, 8);
         let b = _mm_setr_epi16(4, 128, 4, 3, 24, 12, 6, 19);
         let expected = _mm_setr_epi16(-1, -1, -1, -1, -124, 1, 12, -13);
@@ -519,7 +519,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_hsubs_epi16() {
+    fn test_mm_hsubs_epi16() {
         let a = _mm_setr_epi16(1, 2, 3, 4, 5, 6, 7, 8);
         let b = _mm_setr_epi16(4, 128, 4, 3, 32767, -1, -32768, 1);
         let expected = _mm_setr_epi16(-1, -1, -1, -1, -124, 1, 32767, -32768);
@@ -544,7 +544,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_hsub_epi32() {
+    fn test_mm_hsub_epi32() {
         let a = _mm_setr_epi32(1, 2, 3, 4);
         let b = _mm_setr_epi32(4, 128, 4, 3);
         let expected = _mm_setr_epi32(-1, -1, -124, 1);
@@ -560,7 +560,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_maddubs_epi16() {
+    fn test_mm_maddubs_epi16() {
         #[rustfmt::skip]
         let a = _mm_setr_epi8(
             1, 2, 3, 4, 5, 6, 7, 8,
@@ -600,7 +600,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_mulhrs_epi16() {
+    fn test_mm_mulhrs_epi16() {
         let a = _mm_setr_epi16(1, 2, 3, 4, 5, 6, 7, 8);
         let b = _mm_setr_epi16(4, 128, 4, 3, 32767, -1, -32768, 1);
         let expected = _mm_setr_epi16(0, 0, 0, 0, 5, 0, -7, 0);
@@ -616,7 +616,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_sign_epi8() {
+    fn test_mm_sign_epi8() {
         #[rustfmt::skip]
         let a = _mm_setr_epi8(
             1, 2, 3, 4, 5, 6, 7, 8,
@@ -637,7 +637,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_sign_epi16() {
+    fn test_mm_sign_epi16() {
         let a = _mm_setr_epi16(1, 2, 3, 4, -5, -6, 7, 8);
         let b = _mm_setr_epi16(4, 128, 0, 3, 1, -1, -2, 1);
         let expected = _mm_setr_epi16(1, 2, 0, 4, -5, 6, -7, 8);
@@ -646,7 +646,7 @@ mod tests {
     }
 
     #[simd_test(enable = "ssse3")]
-    unsafe fn test_mm_sign_epi32() {
+    fn test_mm_sign_epi32() {
         let a = _mm_setr_epi32(-1, 2, 3, 4);
         let b = _mm_setr_epi32(1, -1, 1, 0);
         let expected = _mm_setr_epi32(-1, -2, 3, 0);
