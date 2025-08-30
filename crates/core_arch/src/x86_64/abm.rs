@@ -51,12 +51,12 @@ mod tests {
     use crate::core_arch::arch::x86_64::*;
 
     #[simd_test(enable = "lzcnt")]
-    unsafe fn test_lzcnt_u64() {
+    fn test_lzcnt_u64() {
         assert_eq!(_lzcnt_u64(0b0101_1010), 57);
     }
 
     #[simd_test(enable = "popcnt")]
-    unsafe fn test_popcnt64() {
+    fn test_popcnt64() {
         assert_eq!(_popcnt64(0b0101_1010), 4);
     }
 }
