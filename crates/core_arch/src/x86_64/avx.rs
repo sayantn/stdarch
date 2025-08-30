@@ -49,7 +49,7 @@ mod tests {
     use crate::core_arch::arch::x86_64::*;
 
     #[simd_test(enable = "avx")]
-    unsafe fn test_mm256_insert_epi64() {
+    fn test_mm256_insert_epi64() {
         let a = _mm256_setr_epi64x(1, 2, 3, 4);
         let r = _mm256_insert_epi64::<3>(a, 0);
         let e = _mm256_setr_epi64x(1, 2, 3, 0);
@@ -57,7 +57,7 @@ mod tests {
     }
 
     #[simd_test(enable = "avx")]
-    unsafe fn test_mm256_extract_epi64() {
+    fn test_mm256_extract_epi64() {
         let a = _mm256_setr_epi64x(0, 1, 2, 3);
         let r = _mm256_extract_epi64::<3>(a);
         assert_eq!(r, 3);

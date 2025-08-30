@@ -880,21 +880,27 @@ mod tests {
     }
 
     #[target_feature(enable = "sse2")]
-    unsafe fn load_m128i_word<T>(data: &[T], word_index: usize) -> __m128i {
-        let pointer = data.as_ptr().byte_add(word_index * 16) as *const __m128i;
-        _mm_loadu_si128(black_box(pointer))
+    fn load_m128i_word<T>(data: &[T], word_index: usize) -> __m128i {
+        unsafe {
+            let pointer = data.as_ptr().byte_add(word_index * 16) as *const __m128i;
+            _mm_loadu_si128(black_box(pointer))
+        }
     }
 
     #[target_feature(enable = "avx")]
-    unsafe fn load_m256i_word<T>(data: &[T], word_index: usize) -> __m256i {
-        let pointer = data.as_ptr().byte_add(word_index * 32) as *const __m256i;
-        _mm256_loadu_si256(black_box(pointer))
+    fn load_m256i_word<T>(data: &[T], word_index: usize) -> __m256i {
+        unsafe {
+            let pointer = data.as_ptr().byte_add(word_index * 32) as *const __m256i;
+            _mm256_loadu_si256(black_box(pointer))
+        }
     }
 
     #[target_feature(enable = "avx512f")]
-    unsafe fn load_m512i_word<T>(data: &[T], word_index: usize) -> __m512i {
-        let pointer = data.as_ptr().byte_add(word_index * 64) as *const __m512i;
-        _mm512_loadu_si512(black_box(pointer))
+    fn load_m512i_word<T>(data: &[T], word_index: usize) -> __m512i {
+        unsafe {
+            let pointer = data.as_ptr().byte_add(word_index * 64) as *const __m512i;
+            _mm512_loadu_si512(black_box(pointer))
+        }
     }
 
     #[simd_test(enable = "gfni,avx512f")]
