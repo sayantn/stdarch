@@ -81,3 +81,7 @@ pub use self::avx512fp16::*;
 mod amx;
 #[unstable(feature = "x86_amx_intrinsics", issue = "126622")]
 pub use self::amx::*;
+
+mod avx10_2;
+#[unstable(feature = "stdarch_x86_avx10_2", issue = "none")]
+pub use self::avx10_2::*;
