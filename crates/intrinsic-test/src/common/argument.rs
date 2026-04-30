@@ -1,6 +1,5 @@
 use itertools::Itertools;
 
-use super::cli::Language;
 use super::constraint::Constraint;
 use super::gen_rust::PASSES;
 use super::indentation::Indentation;
@@ -176,7 +175,7 @@ where
                         "{indentation}let {name} = {load}({vals_name}.as_ptr().add((i+{idx}) % {PASSES}) as _);\n",
                         name = arg.generate_name(),
                         vals_name = arg.rust_vals_array_name(),
-                        load = arg.ty.get_load_function(Language::Rust),
+                        load = arg.ty.get_load_function(),
                     )
                 } else {
                     format!(
