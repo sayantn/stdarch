@@ -5927,11 +5927,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].no}", [a, b, c]]
+    
+  - name: "vcmla{neon_type[0].laneq_nox}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
       - Let:
@@ -5973,11 +5997,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].rot90}", [a, b, c]]
+  
+  - name: "vcmla{neon_type[0].rot90_laneq}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
       - Let:
@@ -6019,11 +6067,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert!, ['LANE == 0']]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].rot90}", [a, b, c]]
+  
+  - name: "vcmla{neon_type[0].rot90_lane}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x2_t, '[2 * LANE as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x2_t, '[2 * LANE as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert!, ['LANE == 0']]
       - Let:
@@ -6110,11 +6182,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].rot180}", [a, b, c]]
+  
+  - name: "vcmla{neon_type[0].rot180_laneq}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
       - Let:
@@ -6158,11 +6254,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]', '_rot180_lane_f32']
       - [float32x4_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]', 'q_rot180_lane_f32']
+    compose:
+      - FnCall: [static_assert!, ['LANE == 0']]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].rot180}", [a, b, c]]
+  
+  - name: "vcmla{type[3]}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x2_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]', '_rot180_lane_f32']
+      - [float32x4_t, float32x2_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]', 'q_rot180_lane_f32']
     compose:
       - FnCall: [static_assert!, ['LANE == 0']]
       - Let:
@@ -6206,11 +6326,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x4_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].rot270}", [a, b, c]]
+  
+  - name: "vcmla{neon_type[0].rot270_laneq}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x4_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert_uimm_bits!, [LANE, 1]]
       - Let:
@@ -6252,11 +6396,35 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert!, ['LANE == 0']]
+      - Let:
+          - c
+          - "{neon_type[0]}"
+          - FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]
+      - FnCall: ["vcmla{neon_type[0].no}", [a, b, c]]
+  
+  - name: "vcmla{neon_type[0].lane_nox}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x2_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x2_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert!, ['LANE == 0']]
       - Let:
@@ -6299,11 +6467,32 @@ intrinsics:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ['3']]
       - *neon-unstable-fcma
+      - *cfg-little-endian
     static_defs: ["const LANE: i32"]
     safety: safe
     types:
       - [float32x2_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1]']
       - [float32x4_t, float32x2_t, '[2 * LANE as u32, 2 * LANE as u32 + 1, 2 * LANE as u32, 2 * LANE as u32 + 1]']
+    compose:
+      - FnCall: [static_assert!, ['LANE == 0']]
+      - Let: [c, "{neon_type[0]}", {FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]}]
+      - FnCall: ["vcmla{neon_type[0].rot270}", [a, b, c]]
+  
+  - name: "vcmla{neon_type[0].rot270_lane}"
+    doc: Floating-point complex multiply accumulate
+    arguments: ["a: {neon_type[0]}", "b: {neon_type[0]}", "c: {neon_type[1]}"]
+    return_type: "{neon_type[0]}"
+    attr:
+      - FnCall: [target_feature, ['enable = "neon,fcma"']]
+      - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [fcmla, 'LANE = 0']]}]]
+      - FnCall: [rustc_legacy_const_generics, ['3']]
+      - *neon-unstable-fcma
+      - *cfg-big-endian
+    static_defs: ["const LANE: i32"]
+    safety: safe
+    types:
+      - [float32x2_t, float32x2_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
+      - [float32x4_t, float32x2_t, '[2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1, 2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]']
     compose:
       - FnCall: [static_assert!, ['LANE == 0']]
       - Let: [c, "{neon_type[0]}", {FnCall: [simd_shuffle!, [c, c, "{type[2]}"]]}]

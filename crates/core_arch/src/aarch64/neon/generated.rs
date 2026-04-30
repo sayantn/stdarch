@@ -3417,6 +3417,7 @@ pub fn vcmlaq_lane_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_lane_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -3435,6 +3436,7 @@ pub fn vcmla_lane_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_lane_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -3450,6 +3452,54 @@ pub fn vcmlaq_lane_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_lane_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x2_t,
+) -> float32x2_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_lane_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x2_t,
+) -> float32x4_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_f32(a, b, c)
@@ -3524,6 +3574,7 @@ pub fn vcmlaq_laneq_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_laneq_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -3542,6 +3593,7 @@ pub fn vcmla_laneq_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_laneq_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -3557,6 +3609,54 @@ pub fn vcmlaq_laneq_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_laneq_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x4_t,
+) -> float32x2_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_laneq_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x4_t,
+) -> float32x4_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_f32(a, b, c)
@@ -3839,6 +3939,7 @@ pub fn vcmlaq_rot180_lane_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_rot180_lane_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -3857,6 +3958,7 @@ pub fn vcmla_rot180_lane_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_rot180_lane_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -3872,6 +3974,54 @@ pub fn vcmlaq_rot180_lane_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_rot180_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_rot180_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_rot180_lane_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x2_t,
+) -> float32x2_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_rot180_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_rot180_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_rot180_lane_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x2_t,
+) -> float32x4_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_rot180_f32(a, b, c)
@@ -3946,6 +4096,7 @@ pub fn vcmlaq_rot180_laneq_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_rot180_laneq_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -3964,6 +4115,7 @@ pub fn vcmla_rot180_laneq_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_rot180_laneq_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -3979,6 +4131,54 @@ pub fn vcmlaq_rot180_laneq_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_rot180_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_rot180_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_rot180_laneq_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x4_t,
+) -> float32x2_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_rot180_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_rot180_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_rot180_laneq_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x4_t,
+) -> float32x4_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_rot180_f32(a, b, c)
@@ -4261,6 +4461,7 @@ pub fn vcmlaq_rot270_lane_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_rot270_lane_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -4279,6 +4480,7 @@ pub fn vcmla_rot270_lane_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_rot270_lane_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -4294,6 +4496,54 @@ pub fn vcmlaq_rot270_lane_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_rot270_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_rot270_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_rot270_lane_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x2_t,
+) -> float32x2_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_rot270_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_rot270_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_rot270_lane_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x2_t,
+) -> float32x4_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_rot270_f32(a, b, c)
@@ -4368,6 +4618,7 @@ pub fn vcmlaq_rot270_laneq_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_rot270_laneq_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -4386,6 +4637,7 @@ pub fn vcmla_rot270_laneq_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_rot270_laneq_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -4401,6 +4653,54 @@ pub fn vcmlaq_rot270_laneq_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_rot270_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_rot270_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_rot270_laneq_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x4_t,
+) -> float32x2_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_rot270_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_rot270_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_rot270_laneq_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x4_t,
+) -> float32x4_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_rot270_f32(a, b, c)
@@ -4683,6 +4983,7 @@ pub fn vcmlaq_rot90_lane_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_rot90_lane_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -4701,6 +5002,7 @@ pub fn vcmla_rot90_lane_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_rot90_lane_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -4716,6 +5018,53 @@ pub fn vcmlaq_rot90_lane_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_rot90_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_rot90_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_rot90_lane_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x2_t,
+) -> float32x2_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x2_t = simd_shuffle!(c, c, [2 * LANE as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_rot90_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_rot90_lane_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_rot90_lane_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x2_t,
+) -> float32x4_t {
+    static_assert!(LANE == 0);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * LANE as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_rot90_f32(a, b, c)
@@ -4790,6 +5139,7 @@ pub fn vcmlaq_rot90_laneq_f16<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmla_rot90_laneq_f32<const LANE: i32>(
     a: float32x2_t,
     b: float32x2_t,
@@ -4808,6 +5158,7 @@ pub fn vcmla_rot90_laneq_f32<const LANE: i32>(
 #[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "little")]
 pub fn vcmlaq_rot90_laneq_f32<const LANE: i32>(
     a: float32x4_t,
     b: float32x4_t,
@@ -4823,6 +5174,54 @@ pub fn vcmlaq_rot90_laneq_f32<const LANE: i32>(
                 2 * LANE as u32 + 1,
                 2 * LANE as u32,
                 2 * LANE as u32 + 1
+            ]
+        );
+        vcmlaq_rot90_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmla_rot90_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmla_rot90_laneq_f32<const LANE: i32>(
+    a: float32x2_t,
+    b: float32x2_t,
+    c: float32x4_t,
+) -> float32x2_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x2_t =
+            simd_shuffle!(c, c, [2 * (1 - LANE) as u32, 2 * (1 - LANE) as u32 + 1]);
+        vcmla_rot90_f32(a, b, c)
+    }
+}
+#[doc = "Floating-point complex multiply accumulate"]
+#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vcmlaq_rot90_laneq_f32)"]
+#[inline]
+#[target_feature(enable = "neon,fcma")]
+#[cfg_attr(test, assert_instr(fcmla, LANE = 0))]
+#[rustc_legacy_const_generics(3)]
+#[unstable(feature = "stdarch_neon_fcma", issue = "117222")]
+#[cfg(target_endian = "big")]
+pub fn vcmlaq_rot90_laneq_f32<const LANE: i32>(
+    a: float32x4_t,
+    b: float32x4_t,
+    c: float32x4_t,
+) -> float32x4_t {
+    static_assert_uimm_bits!(LANE, 1);
+    unsafe {
+        let c: float32x4_t = simd_shuffle!(
+            c,
+            c,
+            [
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1,
+                2 * (1 - LANE) as u32,
+                2 * (1 - LANE) as u32 + 1
             ]
         );
         vcmlaq_rot90_f32(a, b, c)
