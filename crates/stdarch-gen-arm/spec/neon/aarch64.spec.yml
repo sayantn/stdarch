@@ -4196,7 +4196,6 @@ intrinsics:
     return_type: "{type[1]}"
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - FnCall: [target_feature, ['enable = "neon,rcpc3"']]
       - FnCall: [cfg_attr, [{FnCall: [all, [test, {FnCall: [not, ['target_env= "msvc"']]}]]}, {FnCall: [assert_instr, [ldap1, 'LANE = 0']]}]]
@@ -4314,7 +4313,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [nop, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ["2"]]
@@ -4334,7 +4332,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - FnCall: [cfg_attr, [test, {FnCall: [assert_instr, [nop, 'LANE = 0']]}]]
       - FnCall: [rustc_legacy_const_generics, ["2"]]

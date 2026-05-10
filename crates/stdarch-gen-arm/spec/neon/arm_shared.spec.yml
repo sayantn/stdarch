@@ -2843,7 +2843,6 @@ intrinsics:
     static_defs: ['const LANE: i32']
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     types:
       - ["*const f16", float16x4_t, '_lane', '2']
       - ["*const f16", float16x8_t, 'q_lane', '3']
@@ -4652,7 +4651,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - *neon-v7
       - FnCall: [cfg_attr, [*test-is-arm, {FnCall: [assert_instr, [nop, 'LANE = 0']]}]]
@@ -4676,7 +4674,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - *neon-v8
       - FnCall:
@@ -4702,7 +4699,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - *neon-v8
       - FnCall:
@@ -4728,7 +4724,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - *neon-v7
       - FnCall: [cfg_attr, [*test-is-arm, {FnCall: [assert_instr, [nop, 'LANE = 0']]}]]
@@ -4771,7 +4766,6 @@ intrinsics:
     static_defs: ["const LANE: i32"]
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     attr:
       - *neon-v7
       - FnCall: [cfg_attr, [*test-is-arm, {FnCall: [assert_instr, [nop, 'LANE = 0']]}]]
@@ -14276,7 +14270,6 @@ intrinsics:
       - *neon-cfg-arm-unstable
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     types:
       - ['vld1_lane_s8', '*const i8', 'int8x8_t', '"vld1.8"', '7', 'ld1', 'static_assert_uimm_bits!', 'LANE, 3']
       - ['vld1_lane_u8', '*const u8', 'uint8x8_t', '"vld1.8"', '7', 'ld1', 'static_assert_uimm_bits!', 'LANE, 3']
@@ -14319,7 +14312,6 @@ intrinsics:
     static_defs: ['const LANE: i32']
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     types:
       - ['vld1_lane_p64', '*const p64', 'poly64x1_t', 'vldr', '0', 'ldr', 'static_assert!', 'LANE == 0']
       - ['vld1q_lane_p64', '*const p64', 'poly64x2_t', 'vldr', '1', 'ld1', 'static_assert_uimm_bits!', 'LANE, 1']
@@ -14378,7 +14370,6 @@ intrinsics:
       - *neon-cfg-arm-unstable
     safety:
       unsafe: [neon]
-    big_endian_inverse: true
     types:
       - ['vld1q_dup_p64', '*const p64', 'poly64x2_t', 'vldr', 'ld1r', 'vld1q_lane_p64::<0>', 'u64x2::splat(0)', '[0, 0]']
     compose:

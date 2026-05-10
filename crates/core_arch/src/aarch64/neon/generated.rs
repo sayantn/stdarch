@@ -11973,7 +11973,6 @@ pub unsafe fn vldap1_lane_s64<const LANE: i32>(ptr: *const i64, src: int64x1_t) 
 #[doc = "## Safety"]
 #[doc = "  * Neon intrinsic unsafe"]
 #[inline]
-#[cfg(target_endian = "little")]
 #[target_feature(enable = "neon,rcpc3")]
 #[cfg_attr(all(test, not(target_env = "msvc")), assert_instr(ldap1, LANE = 0))]
 #[rustc_legacy_const_generics(2)]
@@ -11987,28 +11986,6 @@ pub unsafe fn vldap1q_lane_s64<const LANE: i32>(ptr: *const i64, src: int64x2_t)
         LANE as u32,
         atomic_src.load(crate::sync::atomic::Ordering::Acquire)
     )
-}
-#[doc = "Load-acquire RCpc one single-element structure to one lane of one register"]
-#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vldap1q_lane_s64)"]
-#[doc = "## Safety"]
-#[doc = "  * Neon intrinsic unsafe"]
-#[inline]
-#[cfg(target_endian = "big")]
-#[target_feature(enable = "neon,rcpc3")]
-#[cfg_attr(all(test, not(target_env = "msvc")), assert_instr(ldap1, LANE = 0))]
-#[rustc_legacy_const_generics(2)]
-#[unstable(feature = "stdarch_neon_feat_lrcpc3", issue = "none")]
-#[cfg(target_has_atomic = "64")]
-pub unsafe fn vldap1q_lane_s64<const LANE: i32>(ptr: *const i64, src: int64x2_t) -> int64x2_t {
-    static_assert_uimm_bits!(LANE, 1);
-    let src: int64x2_t = simd_shuffle!(src, src, [1, 0]);
-    let atomic_src = crate::sync::atomic::AtomicI64::from_ptr(ptr as *mut i64);
-    let ret_val: int64x2_t = simd_insert!(
-        src,
-        LANE as u32,
-        atomic_src.load(crate::sync::atomic::Ordering::Acquire)
-    );
-    simd_shuffle!(ret_val, ret_val, [1, 0])
 }
 #[doc = "Load-acquire RCpc one single-element structure to one lane of one register"]
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vldap1q_lane_f64)"]
@@ -25758,28 +25735,12 @@ pub unsafe fn vst1_lane_f64<const LANE: i32>(a: *mut f64, b: float64x1_t) {
 #[doc = "## Safety"]
 #[doc = "  * Neon intrinsic unsafe"]
 #[inline]
-#[cfg(target_endian = "little")]
 #[target_feature(enable = "neon")]
 #[cfg_attr(test, assert_instr(nop, LANE = 0))]
 #[rustc_legacy_const_generics(2)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub unsafe fn vst1q_lane_f64<const LANE: i32>(a: *mut f64, b: float64x2_t) {
     static_assert_uimm_bits!(LANE, 1);
-    *a = simd_extract!(b, LANE as u32);
-}
-#[doc = "Store multiple single-element structures from one, two, three, or four registers"]
-#[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vst1q_lane_f64)"]
-#[doc = "## Safety"]
-#[doc = "  * Neon intrinsic unsafe"]
-#[inline]
-#[cfg(target_endian = "big")]
-#[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(nop, LANE = 0))]
-#[rustc_legacy_const_generics(2)]
-#[stable(feature = "neon_intrinsics", since = "1.59.0")]
-pub unsafe fn vst1q_lane_f64<const LANE: i32>(a: *mut f64, b: float64x2_t) {
-    static_assert_uimm_bits!(LANE, 1);
-    let b: float64x2_t = simd_shuffle!(b, b, [1, 0]);
     *a = simd_extract!(b, LANE as u32);
 }
 #[doc = "Store multiple 2-element structures from two registers"]
