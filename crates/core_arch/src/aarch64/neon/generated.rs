@@ -10499,7 +10499,7 @@ pub fn vfmsd_laneq_f64<const LANE: i32>(a: f64, b: f64, c: float64x2_t) -> f64 {
 #[cfg(target_endian = "little")]
 #[target_feature(enable = "neon")]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
-#[cfg_attr(test, assert_instr(fmov))]
+#[cfg_attr(test, assert_instr(nop))]
 pub fn vget_high_f64(a: float64x2_t) -> float64x1_t {
     unsafe { float64x1_t([simd_extract!(a, 1)]) }
 }
@@ -10509,7 +10509,7 @@ pub fn vget_high_f64(a: float64x2_t) -> float64x1_t {
 #[cfg(target_endian = "big")]
 #[target_feature(enable = "neon")]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
-#[cfg_attr(test, assert_instr(fmov))]
+#[cfg_attr(test, assert_instr(nop))]
 pub fn vget_high_f64(a: float64x2_t) -> float64x1_t {
     unsafe {
         let a: float64x2_t = simd_shuffle!(a, a, [1, 0]);
@@ -17003,7 +17003,7 @@ pub fn vqdmlal_laneq_s32<const N: i32>(a: int64x2_t, b: int32x2_t, c: int32x4_t)
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlalh_lane_s16)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlal, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlal, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlalh_lane_s16<const LANE: i32>(a: i32, b: i16, c: int16x4_t) -> i32 {
@@ -17014,7 +17014,7 @@ pub fn vqdmlalh_lane_s16<const LANE: i32>(a: i32, b: i16, c: int16x4_t) -> i32 {
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlalh_laneq_s16)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlal, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlal, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlalh_laneq_s16<const LANE: i32>(a: i32, b: i16, c: int16x8_t) -> i32 {
@@ -17025,7 +17025,7 @@ pub fn vqdmlalh_laneq_s16<const LANE: i32>(a: i32, b: i16, c: int16x8_t) -> i32 
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlals_lane_s32)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlal, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlal, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlals_lane_s32<const LANE: i32>(a: i64, b: i32, c: int32x2_t) -> i64 {
@@ -17036,7 +17036,7 @@ pub fn vqdmlals_lane_s32<const LANE: i32>(a: i64, b: i32, c: int32x2_t) -> i64 {
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlals_laneq_s32)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlal, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlal, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlals_laneq_s32<const LANE: i32>(a: i64, b: i32, c: int32x4_t) -> i64 {
@@ -17047,7 +17047,7 @@ pub fn vqdmlals_laneq_s32<const LANE: i32>(a: i64, b: i32, c: int32x4_t) -> i64 
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlalh_s16)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlal))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlal))]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlalh_s16(a: i32, b: i16, c: i16) -> i32 {
     let x: int32x4_t = vqdmull_s16(vdup_n_s16(b), vdup_n_s16(c));
@@ -17169,7 +17169,7 @@ pub fn vqdmlsl_laneq_s32<const N: i32>(a: int64x2_t, b: int32x2_t, c: int32x4_t)
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlslh_lane_s16)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlsl, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlsl, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlslh_lane_s16<const LANE: i32>(a: i32, b: i16, c: int16x4_t) -> i32 {
@@ -17180,7 +17180,7 @@ pub fn vqdmlslh_lane_s16<const LANE: i32>(a: i32, b: i16, c: int16x4_t) -> i32 {
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlslh_laneq_s16)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlsl, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlsl, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlslh_laneq_s16<const LANE: i32>(a: i32, b: i16, c: int16x8_t) -> i32 {
@@ -17191,7 +17191,7 @@ pub fn vqdmlslh_laneq_s16<const LANE: i32>(a: i32, b: i16, c: int16x8_t) -> i32 
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlsls_lane_s32)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlsl, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlsl, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlsls_lane_s32<const LANE: i32>(a: i64, b: i32, c: int32x2_t) -> i64 {
@@ -17202,7 +17202,7 @@ pub fn vqdmlsls_lane_s32<const LANE: i32>(a: i64, b: i32, c: int32x2_t) -> i64 {
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlsls_laneq_s32)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlsl, LANE = 0))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlsl, LANE = 0))]
 #[rustc_legacy_const_generics(3)]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlsls_laneq_s32<const LANE: i32>(a: i64, b: i32, c: int32x4_t) -> i64 {
@@ -17213,7 +17213,7 @@ pub fn vqdmlsls_laneq_s32<const LANE: i32>(a: i64, b: i32, c: int32x4_t) -> i64 
 #[doc = "[Arm's documentation](https://developer.arm.com/architectures/instruction-sets/intrinsics/vqdmlslh_s16)"]
 #[inline]
 #[target_feature(enable = "neon")]
-#[cfg_attr(test, assert_instr(sqdmlsl))]
+#[cfg_attr(all(test, target_endian = "little"), assert_instr(sqdmlsl))]
 #[stable(feature = "neon_intrinsics", since = "1.59.0")]
 pub fn vqdmlslh_s16(a: i32, b: i16, c: i16) -> i32 {
     let x: int32x4_t = vqdmull_s16(vdup_n_s16(b), vdup_n_s16(c));
