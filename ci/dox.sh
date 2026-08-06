@@ -6,9 +6,9 @@
 
 set -ex
 
-export RUSTDOCFLAGS="-D warnings"
-
 dox() {
+  export RUSTDOCFLAGS="-D warnings"
+
   if [ "$CI" != "" ]; then
     rustup target add "${1}" || true
   fi
@@ -22,6 +22,7 @@ dox() {
     export CARGO_UNSTABLE_BUILD_STD=core
     # amdgpu needs a target-cpu, any is fine
     export RUSTFLAGS="${RUSTFLAGS} -Ctarget-cpu=gfx900"
+    export RUSTDOCFLAGS="${RUSTDOCFLAGS} -Ctarget-cpu=gfx900"
   fi
 
   cargo build --verbose --target "${1}" --manifest-path crates/core_arch/Cargo.toml
